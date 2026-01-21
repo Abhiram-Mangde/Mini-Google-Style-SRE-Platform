@@ -62,13 +62,13 @@ resource "kubernetes_secret" "acr" {
 
   data = {
     ".dockerconfigjson" = jsonencode({
-          "auths": {
-            "${azurerm_container_registry.example.login_server}" ={
-              auth = base64encode("${azurerm_container_registry.example.admin_username}:${azurerm_container_registry.example.admin_password}")
-            }
-          }
+      "auths" : {
+        "${azurerm_container_registry.example.login_server}" = {
+          auth = base64encode("${azurerm_container_registry.example.admin_username}:${azurerm_container_registry.example.admin_password}")
         }
-      )}
+      }
+      }
+  ) }
 }
 
 

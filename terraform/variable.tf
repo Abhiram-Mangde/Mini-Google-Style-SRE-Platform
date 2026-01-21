@@ -1,7 +1,7 @@
 variable "prefix" {
   description = "Prefix to be added to resource names"
-  type = string
-  default = "sreplatform"
+  type        = string
+  default     = "sreplatform"
 }
 
 variable "resource_group" {
