@@ -49,28 +49,6 @@ resource "azurerm_kubernetes_cluster" "example" {
     Environment = var.environment
   }
 }
-# -----------------------
-# Kubernetes Secret 
-#-----------------------
-resource "kubernetes_secret" "acr" {
-  metadata {
-    name      = "${var.prefix}acr-secret"
-    namespace = "default"
-  }
-
-  type = "kubernetes.io/dockerconfigjson"
-
-  data = {
-    ".dockerconfigjson" = jsonencode({
-      "auths" : {
-        "${azurerm_container_registry.example.login_server}" = {
-          auth = base64encode("${azurerm_container_registry.example.admin_username}:${azurerm_container_registry.example.admin_password}")
-        }
-      }
-      }
-  ) }
-}
-
 
 # ---------------------------
 # Log Analytics
