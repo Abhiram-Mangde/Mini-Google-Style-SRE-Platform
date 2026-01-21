@@ -21,3 +21,7 @@ variable "aks" {
 variable "la" {
   default = "SreLogAnalytic"
 }
+
+variable "environment" {
+  default = "Production"
+}
