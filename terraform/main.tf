@@ -3,11 +3,19 @@ resource "azurerm_resource_group" "example" {
   location = var.location
 }
 
+# --------------------------
+# Random Numbers 
+#---------------------------
+resource "random_integer" "ri" {
+  min = 6
+  max = 100
+}
+
 # ---------------------------
 # Azure Container Registry
 # ---------------------------
 resource "azurerm_container_registry" "example" {
-  name                = "sredocker97514"
+  name                = "${var.prefix}containerregistry${random_integer.ri.result}"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
   sku                 = "Standard"
@@ -46,7 +54,7 @@ resource "azurerm_kubernetes_cluster" "example" {
 #-----------------------
 resource "kubernetes_secret" "acr" {
   metadata {
-    name      = "acr-secret"
+    name      = "${var.prefix}acr-secret"
     namespace = "default"
   }
 
@@ -78,7 +86,7 @@ resource "azurerm_log_analytics_workspace" "la" {
 # Storage Account
 # ---------------------------
 resource "azurerm_storage_account" "example" {
-  name                     = "srestorageaccount15240"
+  name                     = "${var.prefix}storage${random_integer.ri.result}"
   resource_group_name      = azurerm_resource_group.example.name
   location                 = azurerm_resource_group.example.location
   account_tier             = "Standard"
