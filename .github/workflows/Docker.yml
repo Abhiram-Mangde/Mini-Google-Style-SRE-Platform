@@ -40,12 +40,3 @@ jobs:
         run: |
             docker build -t $ACR_NAME.azurecr.io/$Image_Name:latest .
             docker push $ACR_NAME.azurecr.io/$Image_Name:latest
-
-      - name: Get AKS Credentials
-        run: |
-          az aks get-credentials --resource-group $RG_NAME --name $AKS_NAME --overwrite-existing
-
-      - name: Deploy to AKS
-        run: |
-          kubectl set image deployment/myapp myapp=$ACR_NAME.azurecr.io/$Image_Name:latest
-          kubectl rollout status deployment/myapp
