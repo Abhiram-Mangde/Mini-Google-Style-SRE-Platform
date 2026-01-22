@@ -9,7 +9,7 @@ permissions:
   id-token: write
 
 env:
-   ACR_NAME: 
+   ACR_NAME: sreacregistry135790631
    Image_Name: myapp
 
 jobs:
@@ -26,7 +26,6 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Login to Azure Container Registry
-        uses: docker/login-action@v2
         run: az acr login --name $ACR_NAME
 
       - name: Setup Docker Buildx
@@ -35,4 +34,4 @@ jobs:
       - name: Build and Push Docker Image
         run: |
             docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:latest .
-            docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
+            docker push $ACR_NAME.azurecr.io/$Image_Name:latest
