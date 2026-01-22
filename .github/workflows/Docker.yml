@@ -33,5 +33,5 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-            docker build -t $ACR_NAME.azurecr.io/$IMAGE_NAME:latest .
+            docker build -t $ACR_NAME.azurecr.io/$Image_Name:latest .
             docker push $ACR_NAME.azurecr.io/$Image_Name:latest
