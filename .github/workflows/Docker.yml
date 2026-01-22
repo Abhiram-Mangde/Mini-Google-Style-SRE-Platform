@@ -47,5 +47,5 @@ jobs:
 
       - name: Deploy to AKS
         run: |
-          kubectl set image deployment/webapp webapp=$ACR_NAME.azurecr.io/$Image_Name:latest
+          kubectl set image deployment/myapp myapp=$ACR_NAME.azurecr.io/$Image_Name:latest
           kubectl rollout status deployment/myapp
