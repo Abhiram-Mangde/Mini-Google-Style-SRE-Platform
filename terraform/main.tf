@@ -15,7 +15,7 @@ resource "random_integer" "ri" {
 # Azure Container Registry
 # ---------------------------
 resource "azurerm_container_registry" "example" {
-  name                = "${var.prefix}containerregistry${random_integer.ri.result}"
+  name                = "sreacregistry135790631"
   resource_group_name = azurerm_resource_group.example.name
   location            = azurerm_resource_group.example.location
   sku                 = "Standard"
