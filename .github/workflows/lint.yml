@@ -1,4 +1,4 @@
-name: PR Syntax Checks
+name: PR lint Checks
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   terraform:
-    name: Terraform Syntax Check
+    name: Terraform lint Check
     runs-on: ubuntu-latest
 
     steps:
@@ -30,7 +30,7 @@ jobs:
         working-directory: terraform
 
   docker:
-    name: Dockerfile Syntax Check
+    name: Dockerfile lint Check
     runs-on: ubuntu-latest
 
     steps:
@@ -43,7 +43,7 @@ jobs:
             hadolint/hadolint:latest < Dockerfile
 
   python:
-    name: Python Syntax Check
+    name: Python lint Check
     runs-on: ubuntu-latest
 
     steps:
