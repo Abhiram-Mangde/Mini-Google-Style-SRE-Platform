@@ -1,0 +1,59 @@
+name: PR lint Checks
+
+on:
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  terraform:
+    name: Terraform lint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive terraform/
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: terraform
+
+  docker:
+    name: Dockerfile lint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Dockerfile Lint (Hadolint)
+        run: |
+          docker run --rm -i \
+            hadolint/hadolint:latest < Dockerfile
+
+  python:
+    name: Python lint Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Python Syntax Check
+        run: python -m compileall webApp/
