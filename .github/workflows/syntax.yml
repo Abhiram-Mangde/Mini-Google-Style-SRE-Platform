@@ -1,0 +1,64 @@
+name: PR Syntax Checks
+
+on:
+  pull_request:
+    branches:
+      - ["*"]
+
+jobs:
+  terraform:
+    name: Terraform Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Format Check
+        run: terraform fmt -check -recursive terraform/
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: terraform
+
+      - name: Install tflint
+        run: |
+          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+          export PATH=$HOME/.tflint/bin:$PATH
+          tflint --version
+
+      - name: Run tflint
+        run: tflint --config terraform/.tflint.hcl
+        working-directory: terraform
+
+  docker:
+    name: Dockerfile Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Dockerfile Lint (Hadolint)
+        run: |
+          docker run --rm -i \
+            hadolint/hadolint:latest < Dockerfile
+
+  python:
+    name: Python Syntax Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Python Syntax Check
+        run: python -m compileall webApp/
