@@ -3,7 +3,7 @@ name: PR Syntax Checks
 on:
   pull_request:
     branches:
-      - ["*"]
+      - "*"
 
 jobs:
   terraform:
