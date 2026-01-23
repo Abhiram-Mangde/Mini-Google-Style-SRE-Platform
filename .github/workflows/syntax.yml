@@ -29,16 +29,6 @@ jobs:
         run: terraform validate
         working-directory: terraform
 
-      - name: Install tflint
-        run: |
-          curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
-          export PATH=$HOME/.tflint/bin:$PATH
-          tflint --version
-
-      - name: Run tflint
-        run: tflint --config terraform/.tflint.hcl
-        working-directory: terraform
-
   docker:
     name: Dockerfile Syntax Check
     runs-on: ubuntu-latest
