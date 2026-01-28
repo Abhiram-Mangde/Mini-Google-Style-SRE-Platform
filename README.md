@@ -51,6 +51,10 @@ The Mini Google-Style SRE Platform is a hands-on, system designed to implement S
         └── job_seeker_results.html
 ```
 
+## Architecture Diagram
+
+![alt text](image-1.png)
+
 
 ## Flow of the Project
 
@@ -335,10 +339,22 @@ MTTR = the average time it takes to recover a service after a failure occurs
 
 MTTR=Total downtime / Number of incidents
 
+## Required Permission 
+
+- Service Principal for credential
+- Acr Pull authorization
+- Contributor role
+
 
 # Limitations :
 
 In this project not able to perform Chaos Engineering because for that permission required from azure
 
+ 
 - User access administrator write permission
 - owner write permission
+
+1. Roles with owner and user access administrator can start chaos engineering.
+2. AKS requires acrpull authorization to pull image from acr.
+
+This are the Current limitations of our projects
