@@ -1,5 +1,5 @@
 # Mini-Google-Style-SRE-Platform
-The Mini Google-Style SRE Platform is a hands-on, system designed to implement Site Reliability Engineering (SRE) principles for modern production environments. Inspired by Google’s SRE framework, this platform focuses on ensuring the `reliability`, `availability`, ```scalability```, and ```performance``` of services through automation, monitoring, and proactive incident management.
+The Mini Google-Style SRE Platform is a hands-on, system designed to implement Site Reliability Engineering (SRE) principles for modern production environments. Inspired by Google’s SRE framework, this platform focuses on ensuring the `reliability`, `availability`, `scalability`, and `performance` of services through automation, monitoring, and proactive incident management.
 
 
 
@@ -84,6 +84,9 @@ The platform supports:
 - Auto-Healing through Kubernetes mechanisms and scripted workflows.
 
 
+## Here Project is divided into two parts Developer Focus and User Focus
+
+# **Developer Focus** 
 ## 1.1 Overview of the Web App Structure : 
 
 ```
@@ -92,7 +95,7 @@ To demonstrate and implement all SRE principles in this project, we used the ATS
 ```
 For more detail
 
-[Web App Details](https://github.com/Tanisha-221/ATS_Resume_Scanner/blob/main/README.md)
+[Web App Details](https://github.com/Tanisha-221/ATS_Resume_Scanner)
 
 
 ###  How this Web App Supports SRE Principles
@@ -191,7 +194,7 @@ For more detail
         - Push the image to ACR for deployment.
 
 
-### 4. Application Deployment & Monitoring
+## Application Deployment & Monitoring
 
 ### Once the infrastructure is provisioned by Terraform, the application is deployed on an Azure Kubernetes Service (AKS) cluster. AKS is a managed Kubernetes service that simplifies the deployment, management, and scaling of containerized applications.
 
@@ -234,3 +237,108 @@ AKS is integrated with Azure Monitor and Log Analytics. This setup collects and 
 - Supports alerting systems that notify SRE teams instantly when issues arise
 
 - Facilitates root cause analysis during incidents by providing rich logs and metrics
+
+
+# **User Focus**
+
+## Docker
+
+- Uses the official Python 3.11 base image
+
+- Sets /app as the working directory inside the container
+
+- Copies the requirements.txt file from the local webApp/ directory into the container’s /app directory
+
+- Installs all Python dependencies listed in requirements.txt
+
+- Copies the entire application source code from webApp/ into /app inside the container
+
+- Exposes port 8080 for HTTP traffic
+
+- Runs the application using app.py
+
+`Command`
+
+- docker build
+
+- docker push
+
+## Terraform 
+
+### Azure Resources Provisioned
+1. Azure Resource Group
+2. Random Identifier
+
+3. Azure Container Registry (ACR) : A private Docker container registry hosted on Azure. Stores the Docker images   of your web application. When you build your application into a Docker image via CI/CD, it gets pushed here.
+
+    ### SRE Value
+
+        - Reliability: Images are versioned and stored securely.
+
+        - Rollback: Older images can be redeployed if a new deployment fails.
+
+        - Automation: Works seamlessly with your CI/CD pipeline.
+
+
+4. Azure Kubernetes Service (AKS) : A managed Kubernetes cluster hosted on Azure. Runs your containerized web application.
+
+    ### SRE Value
+
+       - Availability: Ensures app keeps running even if a node fails.
+
+       -  Scalability: Handles traffic spikes automatically.
+
+       - Observability: Integrates with monitoring (Log Analytics).
+
+5. Log Analytics Workspace : A central service for collecting and analyzing logs and metrics from Azure resources.
+
+    ### SRE Value
+
+        - Observability: You can see app performance and failures.
+
+        - Proactive Alerts: Detect issues before users notice them.
+
+        - Root Cause Analysis: Quickly investigate failures or performance issues.
+
+6. Azure Storage Account
+
+`Command`
+
+- terraform init
+- terraform fmt
+- terraform validate
+- terraform plan
+- terraform apply
+
+
+# Discuss About SLA SLO SLI
+
+
+SLO (Service Level Objective) – A target set for an SLI, Focus on service health.
+SLI (Service Level Indicator) – A metric that shows service performance, Focus on the performance target.
+SLA (Service Level Agreement) – A contract with customers, Focus on customer commitment.
+
+| Area          |               SLIs                                |               SLOs               |       SLA               |
+| ------------- | ------------------------------------------        | ---------------------------------| ----------------------- |
+|IaC            | Terraform apply success, drift detection          | ≥ 99.5% successful applies       | Internal                |
+|CI/CD          | Pipeline success rate, rollback success           | ≥ 99% successful pipelines       | Platform SLA            |
+|Docker         | build, pull image, Container restart,startup rate | ≥ 99% image build & pull success | Platform SLA            |
+|Observability  | Alert latency, metrics/logs availability          | Alert latency < 60s              | Detect within min       |
+| Auto-healing  | MTTR, auto-recovery success rate                  | MTTR < 5 min                     | Restore in 5min         |
+| Chaos         |Chaos experiment success                           | -                                | -      
+|               |                                                   |                                  |                         |
+
+
+**MTTR stands for Mean Time To Recovery**
+
+MTTR = the average time it takes to recover a service after a failure occurs
+
+MTTR=Total downtime / Number of incidents
+
+
+# Limitations :
+
+In this project not able to perform Chaos Engineering because for that permission required from azure
+
+- User access administrator write permission
+- owner write permission
