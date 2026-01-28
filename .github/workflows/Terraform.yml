@@ -36,7 +36,9 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-
+    - name: Set Azure Subscription
+      run: az account set --subscription $(jq -r .subscriptionId <<< '${{ secrets.AZURE_CREDENTIALS }}')
+        
     # Initialize Terraform
     - name: Terraform Init
       run: terraform init
